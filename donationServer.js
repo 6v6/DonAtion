@@ -295,5 +295,46 @@ app.get('/send',function(req,res){
     res.render('send', {requsetInfo});
 })
 
+app.post('/sendConfirm', auth, function(req, res) {
+    var userId = req.decoded.userId;
+     var sql = "SELECT * FROM user WHERE id = ?"
+     connection.query(sql, [userId], function(err, result){
+         if(err){
+             console.error(err);
+             throw err;
+         }
+         else{
+
+     var option = {
+         method : "GET",
+         url : "https://testapi.openbanking.or.kr/v2.0/user/me",
+         headers : {
+             Authorization : 'Bearer ' + result[0].accesstoken
+         },
+         qs : {
+             user_seq_no : result[0].userseqno
+         }
+     }
+     console.log(option);
+     request(option, function(err, response, body){
+         if(err){
+             console.error(err);
+             throw err;
+         }
+         else {
+            var accessRequestResult = JSON.parse(body);
+            console.log(accessRequestResult);
+            var reusultAll = {
+                result : result,
+                accessRequestResult : accessRequestResult
+            }
+            console.log(reusultAll);
+            res.json(reusultAll);
+         }
+     })
+         }
+     })
+
+})
 
 app.listen(3000);

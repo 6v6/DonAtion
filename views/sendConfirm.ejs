@@ -37,8 +37,18 @@
 					<div class="wallet-address" style="border-radius: 0 0 0 0;">
                     
 
-                       
-    <!-- 기부금액 시작 -->
+
+                        <div class="txt-left calc-crr" >
+                            <label class="g-text">내 출금계좌 선택하기</label>
+                            <div class="form-row-group with-icons">
+                                <div class="form-row no-padding">
+                                    <select name="demo-category" id="my_accountSelect">
+                                        <option value="">계좌번호</option>
+                                </div>
+                            </div>
+                        </div>
+                     
+                        <div class="form-mini-divider"></div>
                         <div class="txt-left calc-crr" >
                             <label class="g-text">보낼 계좌번호 확인</label>
                             <div class="form-row-group with-icons">
@@ -88,7 +98,7 @@
                        
                        
 
-                    	<div style="margin-top:20px;"><a href="#" class="button primary fit">송금하기</a></div>
+                    	<div style="margin-top:20px;" onclick=""><a href="#" class="button primary fit">송금하기</a></div>
  	<!-- 기부금액 끝 -->                   	    
                     </div>
 
@@ -115,14 +125,42 @@
 
 
     <script>
+        var jwtToken = sessionStorage.getItem('jwtToken')
         
+		if(!jwtToken){
+			alert("로그인이 필요합니다!");
+			window.location.href = '/login';
+        }
+        
+        var userinfo;
+        //사용자 정보 및 계좌정보 옵션 출력
+       
+        function fetchUserData(){
+            $.ajax({
+                url:'http://localhost:3000/sendConfirm',
+                type : 'POST',
+                headers : {
+                    'ourtoken' : jwtToken
+                },
+                success:function(data){
+                    userinfo = data.result[0];
+                    accountList = data.accessRequestResult;
+                    for(var i=0; i < accountList.res_list.length; i++){
+                        $("#my_accountSelect").append(
+                            '<option value="'+i+'">'+  accountList.res_list[i].account_num_masked+'</option>'
+                        )
+                    } 
+                    
+                }
+            })
+        }
         
         console.log(getParam("price_transfer"));
         console.log(getParam("price_donation"));
 
         $(document).ready(function() {
             getParam();
-            
+            fetchUserData();
             var price_transfer=getParam("price_transfer");
             var price_donation=getParam("price_donation");
             console.log(price_transfer);
