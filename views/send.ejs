@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+    <title>더치페이 요청하기</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+                <!-- Header -->
+                <header id="header">
+                    <a href="/" class="logo"><strong>DonAtion</strong> 생활 속 기부 플랫폼</a>
+                    <ul class="icons">
+                        <li><a href="/login" id='login' class="button primary small">sign in</a></li>
+                    </ul>
+                </header>
+
+                <!-- Content -->
+                <section>
+                    <header class="main">
+                        <h1>더치페이 송금하기</h1>
+                    </header>
+
+                    <!-- Content -->
+                    <h2 id="content">더치페이 금액</h2>
+                    <div class="col-12">
+                        <div class="col-6 col-12-xsmall">
+                            <input type="text" name="demo-name" id='dutchAmount' value="<%=requsetInfo.dutchAmount%>" readonly />
+                        </div>
+                    </div>
+
+                    <br><br>
+
+                    <h2 id="content">기부 금액</h2>
+                    <div class="col-12">
+                        <div class="col-6 col-12-xsmall">
+                            <input type="text" name="demo-name" id='donationAmount' value="0" readonly />
+                        </div>
+                    </div>
+
+                    <br><br>
+
+
+                    <h2 id="content">총 이체 금액</h2>
+                    <div class="col-12">
+                        <div class="col-6 col-12-xsmall">
+                            <input type="text" name="demo-name" id='totalAmount' value="<%=requsetInfo.dutchAmount%>" readonly />
+                        </div>
+                    </div>
+
+                    <br><br>
+
+                    <h2 id="content">소소하게 기부하기</h2>
+                    <div class="col-12">
+                        <ul class="actions" id="donationBtnList">
+                        </ul>
+                    </div>
+
+                    <br><br>
+
+                    <ul class="actions fit">
+                        <li><button id='kakaoBtn' class="button primary fit">송금하기</button></li>
+                    </ul>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="inner">
+
+                <!-- Search -->
+                <section id="search" class="alt">
+                    <form method="post" action="#">
+                        <input type="text" name="query" id="query" placeholder="Search" />
+                    </form>
+                </section>
+
+                <!-- Menu -->
+                <nav id="menu">
+                    <header class="major">
+                        <h2>Menu</h2>
+                    </header>
+                    <ul>
+                        <li><a href="index.html">Homepage</a></li>
+                        <li><a href="generic.html">Generic</a></li>
+                        <li><a href="elements.html">Elements</a></li>
+                        <li>
+                            <span class="opener">Submenu</span>
+                            <ul>
+                                <li><a href="#">Lorem Dolor</a></li>
+                                <li><a href="#">Ipsum Adipiscing</a></li>
+                                <li><a href="#">Tempus Magna</a></li>
+                                <li><a href="#">Feugiat Veroeros</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Etiam Dolore</a></li>
+                        <li><a href="#">Adipiscing</a></li>
+                        <li>
+                            <span class="opener">Another Submenu</span>
+                            <ul>
+                                <li><a href="#">Lorem Dolor</a></li>
+                                <li><a href="#">Ipsum Adipiscing</a></li>
+                                <li><a href="#">Tempus Magna</a></li>
+                                <li><a href="#">Feugiat Veroeros</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Maximus Erat</a></li>
+                        <li><a href="#">Sapien Mauris</a></li>
+                        <li><a href="#">Amet Lacinia</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Section -->
+                <section>
+                    <header class="major">
+                        <h2>Ante interdum</h2>
+                    </header>
+                    <div class="mini-posts">
+                        <article>
+                            <a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
+                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+                        </article>
+                        <article>
+                            <a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
+                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+                        </article>
+                        <article>
+                            <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
+                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+                        </article>
+                    </div>
+                    <ul class="actions">
+                        <li><a href="#" class="button">More</a></li>
+                    </ul>
+                </section>
+
+                <!-- Section -->
+                <section>
+                    <header class="major">
+                        <h2>Get in touch</h2>
+                    </header>
+                    <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem
+                        ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat
+                        tempus aliquam.</p>
+                    <ul class="contact">
+                        <li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
+                        <li class="icon solid fa-phone">(000) 000-0000</li>
+                        <li class="icon solid fa-home">1234 Somewhere Road #8254<br />
+                            Nashville, TN 00000-0000</li>
+                    </ul>
+                </section>
+
+                <!-- Footer -->
+                <footer id="footer">
+                    <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a
+                            href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5
+                            UP</a>.</p>
+                </footer>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script>
+            // 전역변수
+            var jwtToken = sessionStorage.getItem('jwtToken')
+            var dutchAmount = <%=requsetInfo.dutchAmount%>;
+
+            // 로그인한 사용자인지 확인
+            if (!jwtToken) {
+                alert("로그인이 필요합니다!");
+                window.location.href = '/login';
+            }
+
+            
+
+            //기부금액 버튼 생성
+            getChoiceArray(dutchAmount);
+
+            function getChoiceArray(dutchAmount) {
+                dutchAmount = dutchAmount.toString();
+                var zero_num; // dutchAmount의 끝자리 0의 개수
+                for (zero_num = 0; zero_num < dutchAmount.length; zero_num++) {
+                    check = dutchAmount.charAt(dutchAmount.length - 1 - zero_num);
+                    if (check != '0') {
+                        break;
+                    }
+                }
+                var choice = 0;
+                var choice_array = [];
+                for (var i = zero_num + 1; i < 5; i++) {
+                    choice = (Math.floor(dutchAmount / (10 ** i)) + 1) * (10 ** i);
+                    choice_array.push(choice);
+                    donationBtnList
+                    $("#donationBtnList").append(
+                    '<li><a href="#" id="donationBtn" class="button" onclick="donate(' + choice + ');" >' + choice + '</a></li>')                
+                }
+            }
+
+            //기부 버튼 클릭식 동작
+            function donate(choice){
+                console.log("choice",choice);
+                $('#donationAmount').val( choice - $('#dutchAmount').val());
+                $('#totalAmount').val(choice);
+            }
+            
+  
+
+
+    </script>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

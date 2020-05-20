@@ -281,6 +281,19 @@ app.get('/sendConfirm',function(req,res){
     res.render('sendConfirm');
 })
 
+//http://localhost:3000/send?dutchAmount=5000&user_id=2&host_use_num=199162899057883851849312
+app.get('/send',function(req,res){
+    var dutchAmount = req.query.dutchAmount;
+    var user_id = req.query.user_id;
+    var host_use_num = req.query.host_use_num;
+    var requsetInfo = {
+        dutchAmount : dutchAmount,
+        user_id : user_id,
+        host_use_num : host_use_num
+    }
+    console.log(requsetInfo);
+    res.render('send', {requsetInfo});
+})
 
 
 app.listen(3000);
