@@ -7,7 +7,7 @@
 <html>
 
 <head>
-    <title>더치페이 요청하기</title>
+    <title>더치페이 송금하기</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
@@ -35,11 +35,23 @@
                         <h1>더치페이 송금하기</h1>
                     </header>
 
+
+                    <!-- Content -->
+                    <h2 id="content">계좌번호 선택</h2>
+                    <div class="col-12">
+                        <select name="demo-category" id="accountSelect">
+                            <option value="">- 계좌번호 -</option>
+                        </select>
+                    </div>
+
+                    <br><br>
+
+
                     <!-- Content -->
                     <h2 id="content">더치페이 금액</h2>
                     <div class="col-12">
                         <div class="col-6 col-12-xsmall">
-                            <input type="text" name="demo-name" id='dutchAmount' value="<%=requsetInfo.dutchAmount%>" readonly />
+                            <input type="text" name="demo-name" id='dutchAmount' value="<%=requestInfo.dutchAmount%>" readonly />
                         </div>
                     </div>
 
@@ -58,7 +70,7 @@
                     <h2 id="content">총 이체 금액</h2>
                     <div class="col-12">
                         <div class="col-6 col-12-xsmall">
-                            <input type="text" name="demo-name" id='totalAmount' value="<%=requsetInfo.dutchAmount%>" readonly />
+                            <input type="text" name="demo-name" id='totalAmount' value="<%=requestInfo.dutchAmount%>" readonly />
                         </div>
                     </div>
 
@@ -67,13 +79,14 @@
                     <h2 id="content">소소하게 기부하기</h2>
                     <div class="col-12">
                         <ul class="actions" id="donationBtnList">
+                            <li><a id="donationBtn" class="button" onclick="donate(<%=requestInfo.dutchAmount%>);" ><%=requestInfo.dutchAmount%></a></li>
                         </ul>
                     </div>
 
                     <br><br>
 
                     <ul class="actions fit">
-                        <li><button id='kakaoBtn' class="button primary fit">송금하기</button></li>
+                        <li><button id='transferBtn' class="button primary fit">송금하기</button></li>
                     </ul>
                 </section>
 
@@ -189,7 +202,11 @@
     <script>
             // 전역변수
             var jwtToken = sessionStorage.getItem('jwtToken')
-            var dutchAmount = <%=requsetInfo.dutchAmount%>;
+            var host_use_num = <%=requestInfo.host_use_num%>;
+            var dutchAmount = <%=requestInfo.dutchAmount%>; // 더치 금액
+            var donationAmount; // 기부 금액
+            var totalAmount; // 총 금액
+
 
             // 로그인한 사용자인지 확인
             if (!jwtToken) {
@@ -198,6 +215,30 @@
             }
 
             
+
+            //사용자 정보 및 계좌정보 옵션 출력
+            fetchUserData();
+            function fetchUserData() {
+                $.ajax({
+                    url: 'http://localhost:3000/send',
+                    type: 'POST',
+                    headers: {
+                        'ourtoken': jwtToken
+                    },
+                    success: function (data) {
+                        userinfo = data.result[0];
+                        accountList = data.accessRequestResult;
+                        for (var i = 0; i < accountList.res_list.length; i++) {
+                            $("#accountSelect").append(
+                                '<option value="' + i + '">' + accountList.res_list[i].account_alias + ' ' + accountList.res_list[i].account_num_masked + '</option>'
+                            )
+                        }
+
+                    }
+                })
+            }
+
+
 
             //기부금액 버튼 생성
             getChoiceArray(dutchAmount);
@@ -216,9 +257,8 @@
                 for (var i = zero_num + 1; i < 5; i++) {
                     choice = (Math.floor(dutchAmount / (10 ** i)) + 1) * (10 ** i);
                     choice_array.push(choice);
-                    donationBtnList
                     $("#donationBtnList").append(
-                    '<li><a href="#" id="donationBtn" class="button" onclick="donate(' + choice + ');" >' + choice + '</a></li>')                
+                    '<li><a id="donationBtn" class="button" onclick="donate(' + choice + ');" >' + choice + '</a></li>')                
                 }
             }
 
@@ -229,7 +269,39 @@
                 $('#totalAmount').val(choice);
             }
             
-  
+
+            // 송금하기 버튼 눌렀을 때
+            $("#transferBtn").click(function() {
+                //dutchAmount
+                donationAmount = $('#donationAmount').val();
+                totalAmount = $('#totalAmount').val();
+                var i = $("#accountSelect option:selected").val();
+                fintech_use_num = accountList.res_list[i].fintech_use_num;
+                
+                
+                // 출금이체 : peer -> donation(이용기관)
+                $.ajax({
+                    url: '/withdraw',
+                    type: 'POST',
+                    headers: {
+                        'ourtoken': jwtToken
+                    },
+                    data: {
+                        tran_amt: totalAmount,
+                        fin_use_num: fintech_use_num
+                    },
+                    success: function (data) {
+                        if(donationAmount > 0) {
+                            alert('송금이 완료되었습니다. 기부에 동참해 주셔서 감사합니다!')
+                        } else {
+                            alert('송금이 완료되었습니다.')
+                        }
+                        window.location.href='/';
+                    }
+                })
+                
+
+            })
 
 
     </script>

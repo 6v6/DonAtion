@@ -4,8 +4,9 @@ const path = require('path')
 var request = require('request')
 var mysql      = require('mysql');
 var jwt = require('jsonwebtoken')
-const DATE_FORMATER = require( 'dateformat' );
+const DATE_FORMATER = require('dateformat');
 var auth = require('./lib/auth')
+
 
 
 
@@ -137,8 +138,8 @@ app.get('/authResult',function(req, res){
         },
         form : {
             code : authCode,
-            client_id : '9Gd2iGZ6uC8C73Sx4StubaH1UIklincOEJAnkf18',
-            client_secret : 'c3p6daWMkdGvM24WRCb0W2xdbXEqdCyGdcne7PlC',
+            client_id : 'a4VYuap4YmsWUp8gRiFKHvnT2s7wNTD90mbRkuGN',
+            client_secret : 'uzdgS8WDa2yfraBa2ooGbi8lBnbpwGhzL1OpPXKY',
             redirect_uri : 'http://localhost:3000/authResult',
             grant_type : 'authorization_code'
         }
@@ -327,16 +328,16 @@ app.get('/send',function(req,res){
     var dutchAmount = req.query.dutchAmount;
     var user_id = req.query.user_id;
     var host_use_num = req.query.host_use_num;
-    var requsetInfo = {
+    var requestInfo = {
         dutchAmount : dutchAmount,
         user_id : user_id,
         host_use_num : host_use_num
     }
-    console.log(requsetInfo);
-    res.render('send', {requsetInfo});
+    console.log(requestInfo);
+    res.render('send', {requestInfo});
 })
 
-app.post('/sendConfirm', auth, function(req, res) {
+app.post('/send', auth, function(req, res) {
     var userId = req.decoded.userId;
      var sql = "SELECT * FROM user WHERE id = ?"
      connection.query(sql, [userId], function(err, result){
@@ -381,57 +382,68 @@ app.post('/sendConfirm', auth, function(req, res) {
 
 
 //------------------ 출금이체 API ------------------//
-app.get('/withdraw', function(req, res) {
-    res.render('withdraw');
-})
-
-app.post('/withdraw', auth, function (req, res) {
-    var userId = req.decoded.userId;
+app.post('/withdraw', auth, function(req, res) {
+    // 은행거래고유번호 생성
+    var countnum = Math.floor(Math.random() * 1000000000) + 1;
+    var transId = "T991628980U" + countnum;
+    
+    // fin_use_num
     var fin_use_num = req.body.fin_use_num;
 
-    var countnum = Math.floor(Math.random() * 1000000000) + 1;
-    var transId = "T991629050U" + countnum; //이용기과번호 본인것 입력
-
-    var sql = "SELECT * FROM user WHERE id = ?"
-    connection.query(sql,[userId], function(err , result){
-        if(err){
+    // tran_amt : 거래금액
+    var tran_amt = req.body.tran_amt;
+    
+    // tran_dtime : 현재시간 14자리 형식
+    var now = new Date();
+    var now_time = DATE_FORMATER(now, "yyyymmddHHMMss")
+    
+    // DB에서 accessToken 가져오기
+    var userId = req.decoded.userId;
+    var sql = "SELECT * FROM user WHERE id = ?" 
+    connection.query(sql, [userId], function(err, result) {
+        if(err) {
             console.error(err);
-            throw err
+            throw err;
         }
         else {
             console.log(result);
+
             var option = {
                 method : "POST",
                 url : "https://testapi.openbanking.or.kr/v2.0/transfer/withdraw/fin_num",
                 headers : {
-                    Authorization : 'Bearer ' + result[0].accesstoken,
-                    "Content-Type" : "application/json"
+                    'Content-Type' : 'application/json; charset=UTF-8',
+                    Authorization : 'Bearer ' + result[0].accesstoken // accessToken
                 },
                 json : {
-                    "bank_tran_id": transId,
-                    "cntr_account_type": "N",
-                    "cntr_account_num": "3052771786",
-                    "dps_print_content": "쇼핑몰 환불",
+                    "bank_tran_id" : transId, // 이용기관코드
+                    "cntr_account_type" : "N",
+                    "cntr_account_num": "3638010471", // 약정 계좌번호
+                    "dps_print_content": result[0].name + '송금', // 입금계좌 인지내역
                     "fintech_use_num": fin_use_num,
-                    "tran_amt": "10000",
-                    "tran_dtime": "20200515150000",
-                    "req_client_name": "송진호",
-                    "req_client_fintech_use_num" : "199162905057883967751277",
-                    "req_client_num": "SONGJINHO",
-                    "transfer_purpose": "TR",
-                    "recv_client_name": "김오픈",
+                    "wd_print_content": "돈에이션", // 출금계좌 인지내역
+                    "tran_amt": tran_amt, // 거래금액
+                    "tran_dtime": now_time,
+                    "req_client_name": result[0].name, // 요청고객 성명
+                    "req_client_bank_code" : "097", 
+                    "req_client_account_num" : "1101230000678", // 요청고객 계좌번호
+                    "req_client_num": "DONATION1234", // 요청고객 회원번호 -> 그냥 통일함
+                    "transfer_purpose" : "TR",
+                    "recv_client_name": "돈에이션",
                     "recv_client_bank_code": "097",
-                    "recv_client_account_num": "6495532459"
+                    "recv_client_account_num": "232000067812"
                 }
+                
             }
-            request(option, function(err, response, body){
-                if(err){
+        
+            request(option, function(err, response, body) {
+                if(err) {
                     console.error(err);
                     throw err;
                 }
                 else {
                     console.log(body);
-                    if(body.rsp_code == 'A0000'){
+                    if(body.rsp_code == "A0000"){
                         res.json(body)
                     }
                 }
