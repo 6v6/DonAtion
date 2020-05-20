@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+	<title>Crypto Mobile Template</title>
+	<!-- Google font file. If you want you can change. -->
+	<link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,900" rel="stylesheet">
+	<!-- Fontawesome font file css -->
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<!-- Template global css file. Requared all pages -->
+	<link rel="stylesheet" type="text/css" href="css/global.style.css">
+</head>
+<body>
+	<div class="wrapper">
+		<div class="wrapper-inline">
+			<!-- Header area start -->
+			<header> <!-- extra class no-background -->
+				<a class="go-back-link" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+				<h1 class="page-title">BLANK</h1>
+				<div class="navi-menu-button">
+					<em></em>
+					<em></em>
+					<em></em>
+				</div>
+			</header>
+			<!-- Header area end -->
+			<!-- Page content start -->
+			<main>
+				<div class="container">
+					<div id="withdrawText">
+						<h1 id="withdraw">출금내역<br></h1>
+					</div>
+				</div>
+				<div class="form-divider"></div>
+				<button type="button" id="withdrawBtn" class="button circle block orange">출금하기</button>
+			</main>
+			<!-- Page content end -->
+		</div>
+	</div>
+	<!--Page loader DOM Elements. Requared all pages-->
+	<div class="sweet-loader">
+		<div class="box">
+		  	<div class="circle1"></div>
+		  	<div class="circle2"></div>
+		  	<div class="circle3"></div>
+		</div>
+	</div>
+	<!-- JQuery library file. requared all pages -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<!-- Template global script file. requared all pages -->
+    <script src="js/global.script.js"></script>
+    
+    <script>
+        var bal;
+        function getQueryStringObject() {
+		    var a = window.location.search.substr(1).split('&');
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=', 2);
+                if (p.length == 1)
+                    b[p[0]] = "";
+                else
+                    b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+        }
+        var qs = getQueryStringObject();
+        var jwtToken = sessionStorage.getItem('jwtToken');
+        $.ajax({
+			url:'http://localhost:3000/balance',
+			type : 'POST',
+			headers : {
+				'ourtoken' : jwtToken
+			},
+			data : {
+                //fin_use_num : '199162905057883967751277',
+                fin_use_num : qs.fin_use_num
+			},
+			success:function(data){
+				bal = data.balance_amt;
+			}
+		})
+		$("#withdrawBtn").click(function() {
+			$.ajax({
+				url:'http://localhost:3000/withdraw',
+				type : 'POST',
+				dataType : 'JSON',
+				headers : {
+					'ourtoken' : jwtToken
+				},
+				data : {
+					fin_use_num : '199162905057883967751277'
+				},
+				success:function(data){
+					$("#withdraw").append(data.tran_amt + "<br>")
+					var result = bal - data.tran_amt
+                    $("#withdraw").append(result + "<br>")
+                    // $("#withdraw").append(bal + "<br>")
+                    // $("#withdraw").append(data.tran_amt + "<br>")
+                    
+                    // result(출금 후 잔액) 다시 서버로 전송 필요
+                    // 1. result를 json으로 파싱
+					// 2. 서버로 보내는 작업
+                    $.ajax({
+                        method : 'POST',
+                        url : "https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num",
+                        headers : {
+                            Authorization : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIxMTAwNzU4NzYzIiwic2NvcGUiOlsiaW5xdWlyeSIsImxvZ2luIiwidHJhbnNmZXIiXSwiaXNzIjoiaHR0cHM6Ly93d3cub3BlbmJhbmtpbmcub3Iua3IiLCJleHAiOjE1OTcyODQ0NTcsImp0aSI6ImZhNzAyZGViLWUwOTUtNDkwMi1iNzExLTE5YjcwOWFiYmNjZSJ9.hZM5EcHDBsOBRO2xBdWcFitIxuNnh1Y_kbUvqDHBE58',
+                        },
+                        data : {
+                            balance_amt : result
+						},
+						
+						// 시뮬레이션 모드에서는 실제로 이체가 발생해도 데이터 변경 X
+						// 저장된 데이터만 불러올 수 있으므로 잔액 변경, 거래내역 추가 등의
+						// 은행 업무랑 똑같이 수행되지 않으므로 그냥 됐다고 생각할 것
+                        success : function (res) {
+                            alert("성공");
+                        },
+                        error: function (xhr) {
+                            alert("실패");
+                        }
+                    });
+				}
+			})
+        })
+	</script>
+</body>
+</html>

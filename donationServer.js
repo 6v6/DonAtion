@@ -378,4 +378,68 @@ app.post('/sendConfirm', auth, function(req, res) {
 
 })
 
+
+
+//------------------ 출금이체 API ------------------//
+app.get('/withdraw', function(req, res) {
+    res.render('withdraw');
+})
+
+app.post('/withdraw', auth, function (req, res) {
+    var userId = req.decoded.userId;
+    var fin_use_num = req.body.fin_use_num;
+
+    var countnum = Math.floor(Math.random() * 1000000000) + 1;
+    var transId = "T991629050U" + countnum; //이용기과번호 본인것 입력
+
+    var sql = "SELECT * FROM user WHERE id = ?"
+    connection.query(sql,[userId], function(err , result){
+        if(err){
+            console.error(err);
+            throw err
+        }
+        else {
+            console.log(result);
+            var option = {
+                method : "POST",
+                url : "https://testapi.openbanking.or.kr/v2.0/transfer/withdraw/fin_num",
+                headers : {
+                    Authorization : 'Bearer ' + result[0].accesstoken,
+                    "Content-Type" : "application/json"
+                },
+                json : {
+                    "bank_tran_id": transId,
+                    "cntr_account_type": "N",
+                    "cntr_account_num": "3052771786",
+                    "dps_print_content": "쇼핑몰 환불",
+                    "fintech_use_num": fin_use_num,
+                    "tran_amt": "10000",
+                    "tran_dtime": "20200515150000",
+                    "req_client_name": "송진호",
+                    "req_client_fintech_use_num" : "199162905057883967751277",
+                    "req_client_num": "SONGJINHO",
+                    "transfer_purpose": "TR",
+                    "recv_client_name": "김오픈",
+                    "recv_client_bank_code": "097",
+                    "recv_client_account_num": "6495532459"
+                }
+            }
+            request(option, function(err, response, body){
+                if(err){
+                    console.error(err);
+                    throw err;
+                }
+                else {
+                    console.log(body);
+                    if(body.rsp_code == 'A0000'){
+                        res.json(body)
+                    }
+                }
+            })
+        }
+    })
+})
+
+
+
 app.listen(3000);
