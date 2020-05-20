@@ -273,7 +273,48 @@ app.get('/charityDetail/:charityid', function(req, res) {
     })
 })
 
+//-------------마이 페이지 관련 기능-----------//
 
+app.get('/profile', function(req, res) {
+    res.render('profile');
+})
+
+app.get('/modify', function(req, res) {
+    res.render('modify');
+})
+
+app.post('/profile', auth, function(req, res) {
+    var userId = req.decoded.userId;
+    console.log(userId)
+    var sql = "SELECT u.name, u.email, c.title, c.idcharity from user u, charity c, userCharity uc WHERE uc.id = u.id and uc.idcharity = c.idcharity;"
+    connection.query(sql, [userId], function(err, result){
+        if(err) {
+            console.error(err)
+            throw err
+        }
+        else {
+            console.log(result)
+            res.json(result)
+        }
+    })
+})
+
+app.post('/modify', auth, function(req, res){
+    var userId = req.decoded.userId;
+    var userName = req.body.userName;
+    var userPassword = req.body.userPassword;
+
+    var sql = "UPDATE user SET name = ?, password = ? WHERE id = ?"
+    connection.query(sql, [userName, userPassword, userId], function(err, result) {
+        if(err){
+            console.error(err)
+            throw err
+        }
+        else {
+            res.json(1);
+        }
+    })
+})
 
 //------------------ 요청받은 더치페이 금액 송금 ------------------//
 //http://localhost:3000/send?dutchAmount=2000&user_id=2
