@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+	<title>더치페이 송금하기</title>
+
+	<!-- Google font file. If you want you can change. -->
+	<link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,900" rel="stylesheet">
+
+    <!-- 플젝 css -->
+    <link rel="stylesheet" type="text/css" href="css/fontawesome-all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+	<!-- Template global css file. Requared all pages -->
+	<link rel="stylesheet" type="text/css" href="css/global.style.css">
+
+
+</head>
+
+<body>
+	
+	<div class="wrapper ">
+		
+		<div class="wrapper-inline">
+		
+			<!-- Header area end -->
+
+			<!-- Page content start -->
+			<main class="margin mt-0">
+
+			
+
+				<section class="wallets-list container">
+					<h4 class="title-main">더치페이 송금하기</h4>
+					<div class="wallet-address" style="border-radius: 0 0 0 0; ">
+                    
+
+                       
+    <!-- 기부금액 시작 -->
+                    <form id="form1" name="form1" method="post" action='./sendConfirm.ejs'>
+                    	<div class="txt-left calc-crr">
+                    		<label class="g-text">더치페이 금액</label>
+	                    	<div class="form-row-group with-icons">
+								<div class="form-row no-padding">
+									<img src="img/content/2.png" class="icon" alt="">
+									<input id="price_transfer" type="text" name="price_transfer" class="form-element" placeholder="0 원" value="0" readonly>
+								</div>
+							</div>
+                    	</div>
+                        
+                        <div class="form-mini-divider"></div>
+                        <div class="txt-left calc-crr">
+                    		<label class="g-text">소소하게 기부하기</label>
+	                    	<div class="form-row-group with-icons">
+								<div class="form-row no-padding">
+									<img src="img/content/2.png" class="icon" alt="">
+									<input id="price_donation" type="text" name="price_donation" class="form-element" placeholder="0 원" value="0">
+								</div>
+                            </div>
+                                <div class="col-6 col-12-small" style="margin-top:20px;">
+                                    <input type="checkbox" id="demo-copy" name="demo-copy" >
+                                    <label for="demo-copy" style="color:black;">나는 기부안할래요!</label>
+                                </div>
+                                
+                        </div>
+                        
+                    </form>
+
+                        <div class="form-mini-divider"></div>
+                        
+                        <div>
+                            <div class="group_cell_box" id="chargeAmtSelect">
+                                <div class="cell_box">
+                                    <button type="button" id="number1_btn" class="button_price" onclick="">
+                                        <span id="number1">10</span><span class="unit_ko">원</span>
+                                    </button>
+                                </div>
+                                <div class="cell_box">
+                                    <button type="button" id="number2_btn" class="button_price" onclick="">
+                                        <span id="number2">100</span><span class="unit_ko">원</span>
+                                    </button>
+                                </div>
+                                <div class="cell_box">
+                                    <button type="button" id="number3_btn" class="button_price" onclick="">
+                                        <span id="number3">1000</span><span class="unit_ko">원</span>
+                                    </button>
+                                </div>
+                                <div class="cell_box">
+                                    <button type="button" class="button_price" onclick="">
+                                        <span id="numberfree">직접입력</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                       
+                       
+                        
+                        <input type="submit" value="최종금액확인" onclick="test1(); return false;" style="margin-top:20px;font-famaily:Nunito !important;">
+ 	<!-- 기부금액 끝 -->                   	    
+                    </div>
+
+					
+				</section>
+
+			   
+
+
+
+	<!-- JQuery library file. requared all pages -->
+	<script src="js/jquery.min.js"></script>
+    <script src="js/send.js"></script>
+	<!-- Swiper JS -->
+    <script src="js/main.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/breakpoints.min.js"></script>
+	<!-- Template global script file. requared all pages -->
+	<script src="js/util.js"></script>
+
+
+
+    <script>
+         var jwtToken = sessionStorage.getItem('jwtToken')
+      if(!jwtToken){
+         alert("로그인이 필요합니다!");
+         window.location.href = '/login';
+         //redirect('/login');
+      }
+        
+   
+
+        $(document).ready(function() {
+            getParam();
+            var dutchAmount=getParam("dutchAmount");
+            var user_id=getParam("user_id");
+            console.log(dutchAmount);
+            console.log(user_id);
+           
+            getChoiceArray(dutchAmount);
+            console.log(dutchAmount);
+        
+        
+        $('#price_transfer').val(dutchAmount);
+        price_transfer=$('#price_transfer').val();
+        
+        
+
+
+        //지우세요
+        //첫째자리
+        var number1_result = parseInt(price_transfer/10);
+        var number1_result2 = number1_result*10;
+        $('#number1').html(number1_result2);
+        
+        //둘쨰자리
+        var number2_resul = parseInt(price_transfer /100);
+        var number2_result2 = number2_resul*100;
+        $('#number2').html(number2_result2);
+        //셋째자리
+        var number3_result = parseInt(price_transfer /1000+1);
+        var number3_result2 = number3_result*1000;
+        $('#number3').html(number3_result2);
+
+        });
+        //
+
+        
+        $('#number1_btn').click(function(){
+            number1=$('#number1').html(); //첫번째자리값
+           
+            
+            price_transfer=$('#price_transfer').val(); //더치페이금액
+            number1=parseInt(number1);
+           
+            price_donation= price_transfer-number1; //기부할 금액
+           
+
+            $('#price_donation').val(price_donation);
+           
+        });
+        $('#number2_btn').click(function(){
+            number2=$('#number2').html(); //첫번째자리값
+            price_transfer=$('#price_transfer').val(); //더치페이금액
+            number2=parseInt(number2);
+            price_donation= price_transfer-number2; //기부할 금액
+           
+
+            $('#price_donation').val(price_donation);
+        });
+        $('#number3_btn').click(function(){
+            number3=$('#number3').html(); //첫번째자리값
+            price_transfer=$('#price_transfer').val(); //더치페이금액
+            number3=parseInt(number3);
+            price_donation= price_transfer-number3; //기부할 금액
+            
+
+            $('#price_donation').val(price_donation);
+        });
+        $('#numberfree').click(function(){
+            $('#price_donation').val(''); 
+        });
+        
+
+ 
+        function getChoiceArray(dutchAmount) {
+            dutchAmount = dutchAmount.toString();
+
+            var zero_num; // dutchAmount의 끝자리 0의 개수
+            for (zero_num = 0; zero_num < dutchAmount.length; zero_num++) {
+                check = dutchAmount.charAt(dutchAmount.length - 1 - zero_num);
+                if (check != '0') {
+                    break;
+                }
+            }
+
+            var choice = 0;
+            var choice_array = [];
+            for (var i = zero_num + 1; i < 5; i++) {
+                choice = (Math.floor(dutchAmount / (10 ** i)) + 1) * (10 ** i);
+                choice_array.push(choice);
+            }
+
+            return choice_array;
+        }
+
+    </script>
+
+</body>
+
+</html>
