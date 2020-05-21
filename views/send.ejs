@@ -223,7 +223,7 @@
             }
 
             
-
+            var userinfo_login //로그인 아이디 저장 변수 
             //사용자 정보 및 계좌정보 옵션 출력
             fetchUserData();
             function fetchUserData() {
@@ -235,6 +235,7 @@
                     },
                     success: function (data) {
                         userinfo = data.result[0];
+                        userinfo_login=userinfo.name;
                         accountList = data.accessRequestResult;
                         for (var i = 0; i < accountList.res_list.length; i++) {
                             $("#accountSelect").append(
@@ -300,6 +301,26 @@
                 $('#totalAmount').val(choice);
             }
             
+            //송금 완료시 기부값,현재시간,아이디 db저장
+            function donation_account(){
+                var donation_money = $("#donationAmount").val();
+                var name=userinfo_login;
+
+                var nowdate=nowdate;
+            
+                $.ajax({
+                    url:'http://localhost:3000/sendConfirms',
+                    type : 'POST',
+                    data : {
+                        donation_money : donation_money,
+                        name:name,
+                        nowdate,nowdate
+                    },
+                    success:function(data){
+                       console.log('기부금 완료');
+                    }
+                })
+            }
 
             // 송금하기 버튼 눌렀을 때
             $("#transferBtn").click(function() {
@@ -324,6 +345,7 @@
                     success: function (data) {
                         if(donationAmount > 0) {
                             alert('송금이 완료되었습니다. 기부에 동참해 주셔서 감사합니다!')
+                            donation_account();
                         } else {
                             alert('송금이 완료되었습니다.')
                         }
@@ -344,7 +366,9 @@
                     },
                     success: function (data) {
                         alert('개설자에게 송금 완료!')
+                        donation_account();
                         window.location.href='/';
+                        
                     }
                 })
                 

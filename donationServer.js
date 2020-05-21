@@ -629,5 +629,29 @@ app.post('/deposit', auth, function(req, res) {
     })
 })
 
+//------------------ 송금완료시 db저장 기부금액,아이디,현재시간 ------------------//
+app.post('/sendConfirms', function(req, res){
+    //data req get db store
+
+    var donation_money = req.body.donation_money
+    var name = req.body.name
+    var nowdate=req.body.nowdate
+    console.log(donation_money);
+    console.log(name);
+    var sql="INSERT INTO donation.donationaccount (name, donation_money,nowdate) VALUES(?,?,current_timestamp())"
+    connection.query(
+        sql, 
+        [name,donation_money,nowdate], // ? <-value
+        function(err,result){
+            if(err){
+                console.error(err);
+                throw err;
+            }
+            else {
+                 res.json(1)   
+            }
+        })
+})
+
 
 app.listen(3000);
