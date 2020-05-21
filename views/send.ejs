@@ -100,104 +100,59 @@
 
             </div>
         </div>
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
 
-        <!-- Sidebar -->
-        <div id="sidebar">
-            <div class="inner">
+				<!-- Search -->
+				<section id="search" class="alt">
+					<form method="post" action="#">
+						<input type="text" name="query" id="query" placeholder="Search" />
+					</form>
+				</section>
 
-                <!-- Search -->
-                <section id="search" class="alt">
-                    <form method="post" action="#">
-                        <input type="text" name="query" id="query" placeholder="Search" />
-                    </form>
-                </section>
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2>Menu</h2>
+					</header>
+					<ul>
+						<li><a href="/">돈에이션</a></li>
+						<li><a href="/dutchRequest">더치페이 요청</a></li>
+						<li><a href="/charityList">기부처 리스트</a></li>
+						<li><a href="/myCharity">나의 기부현황</a></li>
+						<li><a href="/profile">마이페이지</a></li>
+					</ul>
+				</nav>
 
-                <!-- Menu -->
-                <nav id="menu">
-                    <header class="major">
-                        <h2>Menu</h2>
-                    </header>
-                    <ul>
-                        <li><a href="index.html">Homepage</a></li>
-                        <li><a href="generic.html">Generic</a></li>
-                        <li><a href="elements.html">Elements</a></li>
-                        <li>
-                            <span class="opener">Submenu</span>
-                            <ul>
-                                <li><a href="#">Lorem Dolor</a></li>
-                                <li><a href="#">Ipsum Adipiscing</a></li>
-                                <li><a href="#">Tempus Magna</a></li>
-                                <li><a href="#">Feugiat Veroeros</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Etiam Dolore</a></li>
-                        <li><a href="#">Adipiscing</a></li>
-                        <li>
-                            <span class="opener">Another Submenu</span>
-                            <ul>
-                                <li><a href="#">Lorem Dolor</a></li>
-                                <li><a href="#">Ipsum Adipiscing</a></li>
-                                <li><a href="#">Tempus Magna</a></li>
-                                <li><a href="#">Feugiat Veroeros</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Maximus Erat</a></li>
-                        <li><a href="#">Sapien Mauris</a></li>
-                        <li><a href="#">Amet Lacinia</a></li>
-                    </ul>
-                </nav>
 
-                <!-- Section -->
-                <section>
-                    <header class="major">
-                        <h2>Ante interdum</h2>
-                    </header>
-                    <div class="mini-posts">
-                        <article>
-                            <a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                        <article>
-                            <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-                            <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                        </article>
-                    </div>
-                    <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                    </ul>
-                </section>
 
-                <!-- Section -->
-                <section>
-                    <header class="major">
-                        <h2>Get in touch</h2>
-                    </header>
-                    <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem
-                        ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat
-                        tempus aliquam.</p>
-                    <ul class="contact">
-                        <li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-                        <li class="icon solid fa-phone">(000) 000-0000</li>
-                        <li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-                            Nashville, TN 00000-0000</li>
-                    </ul>
-                </section>
+				<!-- Section -->
+				<section>
+					<header class="major">
+						<h2>Get in touch</h2>
+					</header>
+					<p>더치페이를 활용한 기부 플랫폼 <br> <b>돈에이션(DonAtion)</b>을 통해 생활속에서 따뜻한 나눔을 실천해보세요!</p>
+					<ul class="contact">
+						<li class="icon solid fa-envelope"><a href="#">Donation@DonAtion.com</a></li>
+						<li class="icon solid fa-phone">(02) 1234-0525</li>
+						<li class="icon solid fa-home">Seoul<br />
+							junggu, TN 12098</li>
+					</ul>
+				</section>
 
-                <!-- Footer -->
-                <footer id="footer">
-                    <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a
-                            href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5
-                            UP</a>.</p>
-                </footer>
+				<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a
+							href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5
+							UP</a>.</p>
+				</footer>
 
-            </div>
-        </div>
+			</div>
+		</div>
 
-    </div>
+	</div>
+
 
 
     <!-- Scripts -->
@@ -206,174 +161,193 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-
+    
     <script>
-            // 전역변수
-            var jwtToken = sessionStorage.getItem('jwtToken')
-            var host_use_num = <%=requestInfo.host_use_num%>;
-            var dutchAmount = <%=requestInfo.dutchAmount%>; // 더치 금액
-            var donationAmount; // 기부 금액
-            var totalAmount; // 총 금액
+        // 전역변수
+        var jwtToken = sessionStorage.getItem('jwtToken')
+        var host_use_num = <%=requestInfo.host_use_num%>;
+        var dutchAmount = <%=requestInfo.dutchAmount%>; // 더치 금액
+        var donationAmount; // 기부 금액
+        var totalAmount; // 총 금액
 
 
-            // 로그인한 사용자인지 확인
-            if (!jwtToken) {
-                alert("로그인이 필요합니다!");
-                window.location.href = '/login';
+        // 로그인한 사용자인지 확인
+        if (!jwtToken) {
+            alert("로그인이 필요합니다!");
+            window.location.href = '/login';
+        }
+
+        var button = document.getElementById('login');
+        window.onload = function () {
+            if (jwtToken) {
+                $('#login').html('sign out');
+                button.setAttribute('href', '/');
             }
-
-            
-            var userinfo_login //로그인 아이디 저장 변수 
-            //사용자 정보 및 계좌정보 옵션 출력
-            fetchUserData();
-            function fetchUserData() {
-                $.ajax({
-                    url: 'http://localhost:3000/send',
-                    type: 'POST',
-                    headers: {
-                        'ourtoken': jwtToken
-                    },
-                    success: function (data) {
-                        userinfo = data.result[0];
-                        userinfo_login=userinfo.name;
-                        accountList = data.accessRequestResult;
-                        for (var i = 0; i < accountList.res_list.length; i++) {
-                            $("#accountSelect").append(
-                                '<option value="' + i + '">' + accountList.res_list[i].account_alias + ' ' + accountList.res_list[i].account_num_masked + '</option>'
-                            )
-                        }
-
-                    }
-                })
+            else {
+                $('#login').html('sign in');
+                button.setAttribute('href', '/login');
             }
-
-
-            //기부처 선택 option 생성
-            charityListData();
-            function charityListData() {
-                $.ajax({
-                    url: 'http://localhost:3000/charityList',
-                    type: 'POST',
-                    headers: {
-                        'ourtoken': jwtToken
-                    },
-                    success: function (data) {
-                        console.log(data)
-                        charityList = data;
-                        for (var i = 0; i < data.length; i++) {
-                            $("#charitySelect").append(
-                                '<option value="' + i + '">' + charityList[i].title + '</option>'
-                            )
-                        }
-
-                    }
-                })
+        }
+        $("#login").click(function () {
+            if ($('#login').html() == 'sign out') {
+                alert('로그아웃 되었습니다');
+                sessionStorage.clear();
+                location.reload();
             }
+        })
 
 
-
-            //기부금액 버튼 생성
-            getChoiceArray(dutchAmount);
-
-            function getChoiceArray(dutchAmount) {
-                dutchAmount = dutchAmount.toString();
-                var zero_num; // dutchAmount의 끝자리 0의 개수
-                for (zero_num = 0; zero_num < dutchAmount.length; zero_num++) {
-                    check = dutchAmount.charAt(dutchAmount.length - 1 - zero_num);
-                    if (check != '0') {
-                        break;
+        var userinfo_login //로그인 아이디 저장 변수 
+        //사용자 정보 및 계좌정보 옵션 출력
+        fetchUserData();
+        function fetchUserData() {
+            $.ajax({
+                url: 'http://localhost:3000/send',
+                type: 'POST',
+                headers: {
+                    'ourtoken': jwtToken
+                },
+                success: function (data) {
+                    userinfo = data.result[0];
+                    userinfo_login = userinfo.name;
+                    accountList = data.accessRequestResult;
+                    for (var i = 0; i < accountList.res_list.length; i++) {
+                        $("#accountSelect").append(
+                            '<option value="' + i + '">' + accountList.res_list[i].account_alias + ' ' + accountList.res_list[i].account_num_masked + '</option>'
+                        )
                     }
+
                 }
-                var choice = 0;
-                var choice_array = [];
-                for (var i = zero_num + 1; i < 5; i++) {
-                    choice = (Math.floor(dutchAmount / (10 ** i)) + 1) * (10 ** i);
-                    choice_array.push(choice);
-                    $("#donationBtnList").append(
-                    '<li><a id="donationBtn" class="button" onclick="donate(' + choice + ');" >' + choice + '</a></li>')                
-                }
-            }
-
-            //기부 버튼 클릭식 동작
-            function donate(choice){
-                console.log("choice",choice);
-                $('#donationAmount').val( choice - $('#dutchAmount').val());
-                $('#totalAmount').val(choice);
-            }
-            
-            //송금 완료시 기부값,현재시간,아이디 db저장
-            function donation_account(){
-                var donation_money = $("#donationAmount").val();
-                var name=userinfo_login;
-
-                var nowdate=nowdate;
-            
-                $.ajax({
-                    url:'http://localhost:3000/sendConfirms',
-                    type : 'POST',
-                    data : {
-                        donation_money : donation_money,
-                        name:name,
-                        nowdate,nowdate
-                    },
-                    success:function(data){
-                       console.log('기부금 완료');
-                    }
-                })
-            }
-
-            // 송금하기 버튼 눌렀을 때
-            $("#transferBtn").click(function() {
-                //dutchAmount
-                donationAmount = $('#donationAmount').val();
-                totalAmount = $('#totalAmount').val();
-                var i = $("#accountSelect option:selected").val();
-                fintech_use_num = accountList.res_list[i].fintech_use_num;
-                
-                
-                // 출금이체 : peer -> donation(이용기관)
-                $.ajax({
-                    url: '/withdraw',
-                    type: 'POST',
-                    headers: {
-                        'ourtoken': jwtToken
-                    },
-                    data: {
-                        tran_amt: totalAmount,
-                        fin_use_num: fintech_use_num
-                    },
-                    success: function (data) {
-                        if(donationAmount > 0) {
-                            alert('송금이 완료되었습니다. 기부에 동참해 주셔서 감사합니다!')
-                            donation_account();
-                        } else {
-                            alert('송금이 완료되었습니다.')
-                        }
-                    }
-                })
-
-
-                // 입금이체 : donation(이용기관) -> host(개설자)
-                $.ajax({
-                    url: '/deposit',
-                    type: 'POST',
-                    headers: {
-                        'ourtoken': jwtToken
-                    },
-                    data: {
-                        tran_amt: dutchAmount,
-                        fin_use_num: host_use_num
-                    },
-                    success: function (data) {
-                        alert('개설자에게 송금 완료!')
-                        donation_account();
-                        window.location.href='/';
-                        
-                    }
-                })
-                
-
             })
+        }
+
+
+        //기부처 선택 option 생성
+        charityListData();
+        function charityListData() {
+            $.ajax({
+                url: 'http://localhost:3000/charityList',
+                type: 'POST',
+                headers: {
+                    'ourtoken': jwtToken
+                },
+                success: function (data) {
+                    console.log(data)
+                    charityList = data;
+                    for (var i = 0; i < data.length; i++) {
+                        $("#charitySelect").append(
+                            '<option value="' + i + '">' + charityList[i].title + '</option>'
+                        )
+                    }
+
+                }
+            })
+        }
+
+
+
+        //기부금액 버튼 생성
+        getChoiceArray(dutchAmount);
+
+        function getChoiceArray(dutchAmount) {
+            dutchAmount = dutchAmount.toString();
+            var zero_num; // dutchAmount의 끝자리 0의 개수
+            for (zero_num = 0; zero_num < dutchAmount.length; zero_num++) {
+                check = dutchAmount.charAt(dutchAmount.length - 1 - zero_num);
+                if (check != '0') {
+                    break;
+                }
+            }
+            var choice = 0;
+            var choice_array = [];
+            for (var i = zero_num + 1; i < 5; i++) {
+                choice = (Math.floor(dutchAmount / (10 ** i)) + 1) * (10 ** i);
+                choice_array.push(choice);
+                $("#donationBtnList").append(
+                    '<li><a id="donationBtn" class="button" onclick="donate(' + choice + ');" >' + choice + '</a></li>')
+            }
+        }
+
+        //기부 버튼 클릭식 동작
+        function donate(choice) {
+            console.log("choice", choice);
+            $('#donationAmount').val(choice - $('#dutchAmount').val());
+            $('#totalAmount').val(choice);
+        }
+
+        //송금 완료시 기부값,현재시간,아이디 db저장
+        function donation_account() {
+            var donation_money = $("#donationAmount").val();
+            var name = userinfo_login;
+
+            var nowdate = nowdate;
+
+            $.ajax({
+                url: 'http://localhost:3000/sendConfirms',
+                type: 'POST',
+                data: {
+                    donation_money: donation_money,
+                    name: name,
+                    nowdate, nowdate
+                },
+                success: function (data) {
+                    console.log('기부금 완료');
+                }
+            })
+        }
+
+        // 송금하기 버튼 눌렀을 때
+        $("#transferBtn").click(function () {
+            //dutchAmount
+            donationAmount = $('#donationAmount').val();
+            totalAmount = $('#totalAmount').val();
+            var i = $("#accountSelect option:selected").val();
+            fintech_use_num = accountList.res_list[i].fintech_use_num;
+
+
+            // 출금이체 : peer -> donation(이용기관)
+            $.ajax({
+                url: '/withdraw',
+                type: 'POST',
+                headers: {
+                    'ourtoken': jwtToken
+                },
+                data: {
+                    tran_amt: totalAmount,
+                    fin_use_num: fintech_use_num
+                },
+                success: function (data) {
+                    if (donationAmount > 0) {
+                        alert('송금이 완료되었습니다. 기부에 동참해 주셔서 감사합니다!')
+                        donation_account();
+                    } else {
+                        alert('송금이 완료되었습니다.')
+                    }
+                }
+            })
+
+
+            // 입금이체 : donation(이용기관) -> host(개설자)
+            $.ajax({
+                url: '/deposit',
+                type: 'POST',
+                headers: {
+                    'ourtoken': jwtToken
+                },
+                data: {
+                    tran_amt: dutchAmount,
+                    fin_use_num: host_use_num
+                },
+                success: function (data) {
+                    alert('개설자에게 송금 완료!')
+                    donation_account();
+                    window.location.href = '/';
+
+                }
+            })
+
+
+        })
 
 
     </script>
