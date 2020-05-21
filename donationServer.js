@@ -339,13 +339,34 @@ app.post('/modify', auth, function(req, res){
 })
 
 //------------------ 나의 기부현황 ------------------//
-app.get('/myCharity', auth, function(req, res){
+
+app.get('/myCharity', function(req, res){
     res.render('myCharity')
+})
+
+app.post('/myCharity', auth, function(req, res){
+    var userId = req.decoded.userId;
+
+    var sql = "SELECT u.name, u.email, c.title, c.charityid, uc.amount, uc.charitydate from user u, charity c, userCharity uc WHERE u.id = uc.id AND c.charityid = uc.charityid AND uc.id = ?;"
+    connection.query(sql, [userId], function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else{
+            for (var i = 0; i < result.length; i++) {
+                result[i].charitydate = DATE_FORMATER(result[i].charitydate, "yyyy-mm-dd");
+            }
+            res.json(result);
+        }
+    })
 })
 
 
 
-//기부하기 
+
+
+//------------------ 더치페이 기능 없이 기부하기 ------------------//
 app.get('/charitySend/:charityid', function(req, res) {
     var charityid = req.params.charityid;
     var sql = "SELECT * FROM charity where charityid = ?"
