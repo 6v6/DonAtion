@@ -308,7 +308,7 @@ app.get('/modify', function(req, res) {
 app.post('/profile', auth, function(req, res) {
     var userId = req.decoded.userId;
     console.log(userId)
-    var sql = "SELECT u.name, u.email, c.title, c.charityid from user u, charity c, userCharity uc WHERE uc.id = u.id and uc.charityid = c.charityid;"
+    var sql = "SELECT u.name, u.email, c.title, c.charityid, uc.amount from user u, charity c, userCharity uc WHERE u.id = uc.id AND c.charityid = uc.charityid AND uc.id = ?;"
     connection.query(sql, [userId], function(err, result){
         if(err) {
             console.error(err)
@@ -338,8 +338,6 @@ app.post('/modify', auth, function(req, res){
     })
 })
 
-
-
 //------------------ 나의 기부현황 ------------------//
 app.get('/myCharity', auth, function(req, res){
     res.render('myCharity')
@@ -347,6 +345,61 @@ app.get('/myCharity', auth, function(req, res){
 
 
 
+//기부하기 
+app.get('/charitySend/:charityid', function(req, res) {
+    var charityid = req.params.charityid;
+    var sql = "SELECT * FROM charity where charityid = ?"
+    console.log(charityid);
+    connection.query(sql, [charityid], function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else{
+            res.render('charitySend', {data : result});
+        }
+    })
+})
+
+app.post('/charitySend', auth, function(req, res){
+    var userId = req.decoded.userId;
+    var charityid = req.body.charityid;
+    var amount = req.body.amount;
+
+    var sql = "SELECT * FROM userCharity where id = ?"
+    connection.query(sql, [userId], function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else{
+            if(result.length == 0) {
+                var sql = "INSERT into userCharity SET id = ?, charityid = ?, amount = amount + ?"
+                connection.query(sql, [userId, charityid, amount], function(err, result) {
+                    if(err){
+                        console.error(err)
+                        throw err
+                    }
+                    else {
+                        res.json(1);
+                    }
+                })
+            }
+            else {
+                var sql = "UPDATE userCharity SET amount = amount + ? WHERE id = ? AND charityid = ?"
+                connection.query(sql, [amount, userId, charityid], function(err, result) {
+                    if(err){
+                        console.error(err)
+                        throw err
+                    }
+                    else {
+                        res.json(1);
+                    }
+                })
+            }
+        }
+    })
+})
 
 
 //------------------ 요청받은 더치페이 금액 송금 ------------------//

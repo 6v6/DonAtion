@@ -138,8 +138,9 @@
 	<script src="js/global.script.js"></script>
     <script>
         $('#modifyBtn').click(function(){
-            var userName = $("#userName").val();
-            var userPassword = $("#userPassword").val();
+			var jwtToken = sessionStorage.getItem('jwtToken')
+			var userName = $("#userName").val();
+			var userPassword = $("#userPassword").val();
 			alert(userName + userPassword)
 			
 			$.ajax({
