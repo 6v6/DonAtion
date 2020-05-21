@@ -338,6 +338,17 @@ app.post('/modify', auth, function(req, res){
     })
 })
 
+
+
+//------------------ 나의 기부현황 ------------------//
+app.get('/myCharity', auth, function(req, res){
+    res.render('myCharity')
+})
+
+
+
+
+
 //------------------ 요청받은 더치페이 금액 송금 ------------------//
 //http://localhost:3000/send?dutchAmount=2000&user_id=2
 app.get('/sendConfirm',function(req,res){
