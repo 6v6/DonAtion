@@ -633,15 +633,15 @@ app.post('/deposit', auth, function(req, res) {
 app.post('/sendConfirms', function(req, res){
     //data req get db store
 
-    var donation_money = req.body.donation_money
-    var name = req.body.name
-    var nowdate=req.body.nowdate
-    console.log(donation_money);
-    console.log(name);
-    var sql="INSERT INTO donation.donationaccount (name, donation_money,nowdate) VALUES(?,?,current_timestamp())"
+    var id = req.body.id
+    var amount = req.body.amount
+    var charityid=req.body.charityid
+    console.log(id);
+    console.log(amount);
+    var sql="INSERT INTO donation.userCharity (id, amount,charityid) VALUES(?,?,?)"
     connection.query(
         sql, 
-        [name,donation_money,nowdate], // ? <-value
+        [id,amount,charityid], // ? <-value
         function(err,result){
             if(err){
                 console.error(err);
