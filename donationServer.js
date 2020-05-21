@@ -338,6 +338,13 @@ app.post('/modify', auth, function(req, res){
     })
 })
 
+//------------------ 나의 기부현황 ------------------//
+app.get('/myCharity', auth, function(req, res){
+    res.render('myCharity')
+})
+
+
+
 //기부하기 
 app.get('/charitySend/:charityid', function(req, res) {
     var charityid = req.params.charityid;
