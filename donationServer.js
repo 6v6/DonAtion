@@ -257,7 +257,7 @@ app.get('/charityList', function(req, res) {
 //기부처 상세보기
 app.get('/charityDetail/:charityid', function(req, res) {
     var charityid = req.params.charityid;
-    var sql = "SELECT * FROM charity where idcharity = ?"
+    var sql = "SELECT * FROM charity where charityid = ?"
     console.log(charityid);
     connection.query(sql, [charityid], function(err, result){
         if(err){
@@ -287,7 +287,7 @@ app.get('/modify', function(req, res) {
 app.post('/profile', auth, function(req, res) {
     var userId = req.decoded.userId;
     console.log(userId)
-    var sql = "SELECT u.name, u.email, c.title, c.idcharity from user u, charity c, userCharity uc WHERE uc.id = u.id and uc.idcharity = c.idcharity;"
+    var sql = "SELECT u.name, u.email, c.title, c.charityid from user u, charity c, userCharity uc WHERE uc.id = u.id and uc.charityid = c.charityid;"
     connection.query(sql, [userId], function(err, result){
         if(err) {
             console.error(err)
