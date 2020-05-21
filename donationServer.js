@@ -396,16 +396,16 @@ app.post('/charitySend', auth, function(req, res){
 
 
 //------------------ 요청받은 더치페이 금액 송금 ------------------//
-//http://localhost:3000/send?dutchAmount=2000&user_id=2
 app.get('/sendConfirm',function(req,res){
     res.render('sendConfirm');
 })
 
-//http://localhost:3000/send?dutchAmount=5000&user_id=2&host_use_num=199162899057883851849312
+//http://localhost:3000/send?dutchAmount=6430&user_id=2&host_use_num=199162898057883850732824
 app.get('/send',function(req,res){
     var dutchAmount = req.query.dutchAmount;
     var user_id = req.query.user_id;
     var host_use_num = req.query.host_use_num;
+    host_use_num = host_use_num.toString();
     var requestInfo = {
         dutchAmount : dutchAmount,
         user_id : user_id,
@@ -530,6 +530,83 @@ app.post('/withdraw', auth, function(req, res) {
     })
 })
 
+
+
+//------------------ 입금이체 API ------------------//
+app.post('/deposit', auth, function(req, res) {
+    // 은행거래고유번호 생성
+    var countnum = Math.floor(Math.random() * 1000000000) + 1;
+    var transId = "T991628980U" + countnum;
+    
+    // fin_use_num
+    var fin_use_num = req.body.fin_use_num;
+
+    // tran_amt : 거래금액
+    var tran_amt = req.body.tran_amt;
+    
+    // tran_dtime : 현재시간 14자리 형식
+    var now = new Date();
+    var now_time = DATE_FORMATER(now, "yyyymmddHHMMss")
+    
+    // DB에서 accessToken 가져오기
+    var userId = req.decoded.userId;
+    var sql = "SELECT * FROM user WHERE id = ?" 
+    connection.query(sql, [userId], function(err, result) {
+        if(err) {
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log(result);
+
+            var option = {
+                method : "POST",
+                url : "https://testapi.openbanking.or.kr/v2.0/transfer/deposit/fin_num",
+                headers : {
+                    'Content-Type' : 'application/json; charset=UTF-8',
+                    Authorization : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJUOTkxNjI4OTgwIiwic2NvcGUiOlsib29iIl0sImlzcyI6Imh0dHBzOi8vd3d3Lm9wZW5iYW5raW5nLm9yLmtyIiwiZXhwIjoxNTk3ODA1MzMxLCJqdGkiOiIxNzI1YTliYS1jODU1LTRhODMtYWU5OS03OWE4Y2MwZDkzODYifQ.y3ieHZ77WNd5HNRk23U3JVpAjDdKRjlxRw8lsFII0Bw' // 이용기관accessToken
+                },
+                json : {
+                    "cntr_account_type": "N",
+                    "cntr_account_num": "5074073519", // 약정 계좌번호
+                    "wd_pass_phrase": "NONE",
+                    "wd_print_content": "더치금액 송금", // 입금계좌 인지내역
+                    "name_check_option": "off",
+                    "tran_dtime": now_time,
+                    "req_cnt": "1",
+                    "req_list": [
+                        {
+                        "tran_no": "1",
+                        "bank_tran_id": transId,
+                        "fintech_use_num": "199162898057883850732824",
+                        "print_content": "돈에이션",
+                        "tran_amt": tran_amt,
+                        "req_client_name": "개설자",
+                        "req_client_bank_code": "097",
+                        "req_client_account_num": "00012300000678",
+                        "req_client_num": "DONATION1234",
+                        "transfer_purpose": "TR"
+                        }
+                    ]
+                }
+                
+            }
+        
+            request(option, function(err, response, body) {
+                if(err) {
+                    console.error(err);
+                    throw err;
+                }
+                else {
+                    console.log(body);
+                    if(body.rsp_code == "A0000"){
+                        res.json(body)
+                    }
+                }
+            })
+        }
+    })
+})
 
 
 app.listen(3000);

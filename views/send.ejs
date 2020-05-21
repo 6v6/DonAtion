@@ -328,6 +328,23 @@
                         } else {
                             alert('송금이 완료되었습니다.')
                         }
+                    }
+                })
+
+
+                // 입금이체 : donation(이용기관) -> host(개설자)
+                $.ajax({
+                    url: '/deposit',
+                    type: 'POST',
+                    headers: {
+                        'ourtoken': jwtToken
+                    },
+                    data: {
+                        tran_amt: dutchAmount,
+                        fin_use_num: host_use_num
+                    },
+                    success: function (data) {
+                        alert('개설자에게 송금 완료!')
                         window.location.href='/';
                     }
                 })
