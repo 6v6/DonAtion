@@ -76,6 +76,15 @@
 
                     <br><br>
 
+                    <h2 id="content">기부처 선택</h2>
+                    <div class="col-12">
+                        <select name="demo-category" id="charitySelect"">
+                            <option value="">- 기부처 -</option>
+                        </select>
+                    </div>
+
+                    <br><br>
+
                     <h2 id="content">소소하게 기부하기</h2>
                     <div class="col-12">
                         <ul class="actions" id="donationBtnList">
@@ -231,6 +240,29 @@
                         for (var i = 0; i < accountList.res_list.length; i++) {
                             $("#accountSelect").append(
                                 '<option value="' + i + '">' + accountList.res_list[i].account_alias + ' ' + accountList.res_list[i].account_num_masked + '</option>'
+                            )
+                        }
+
+                    }
+                })
+            }
+
+
+            //기부처 선택 option 생성
+            charityListData();
+            function charityListData() {
+                $.ajax({
+                    url: 'http://localhost:3000/charityList',
+                    type: 'POST',
+                    headers: {
+                        'ourtoken': jwtToken
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        charityList = data;
+                        for (var i = 0; i < data.length; i++) {
+                            $("#charitySelect").append(
+                                '<option value="' + i + '">' + charityList[i].title + '</option>'
                             )
                         }
 

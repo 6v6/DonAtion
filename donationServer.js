@@ -234,7 +234,7 @@ app.post('/searchPeer', function(req, res) {
 
 //------------------ 기부처 관련 정보 ------------------//
 
-//기부리스트
+//기부리스트 get방식
 app.get('/charityList', function(req, res) {
     var sql = "SELECT * FROM charity"
     connection.query(sql, function(err, result){
@@ -250,6 +250,27 @@ app.get('/charityList', function(req, res) {
                 result[i].percent = Math.round((result[i].current_amount / result[i].target_amount) * 100);
             }
             res.render('charityList', {charityList : result});
+        }
+    })
+})
+
+
+//기부리스트 post방식
+app.post('/charityList', function(req, res) {
+    var sql = "SELECT * FROM charity"
+    connection.query(sql, function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else{
+            console.log(result);
+            for(var i = 0; i < result.length; i++){
+                result[i].startdate = DATE_FORMATER(result[i].startdate, "yyyy-mm-dd" );
+                result[i].enddate = DATE_FORMATER( result[i].enddate, "yyyy-mm-dd" );
+                result[i].percent = Math.round((result[i].current_amount / result[i].target_amount) * 100);
+            }
+            res.json(result);
         }
     })
 })
