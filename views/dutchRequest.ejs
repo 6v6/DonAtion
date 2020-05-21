@@ -93,7 +93,7 @@
 
                                         <ul class="actions fit">
                                             <li><button id='kakaoBtn' class="button primary fit">카카오로 요청하기</button></li>
-                                            <li><button id='messageBtn' class="button fit">문자로 요청하기</button></li>
+                                            <li><button id='messageBtn' class="button fit">기부하기</button></li>
                                         </ul>
 		
 
@@ -351,7 +351,10 @@
                 }
             });
         })
-        
+
+        $("#messageBtn").click(function() {
+            window.location.href = '/charityList';
+        })
     </script>
 
 
