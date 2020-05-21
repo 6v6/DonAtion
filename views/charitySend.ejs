@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+	<title>더치페이 송금하기 확인페이지</title>
+
+	<!-- Google font file. If you want you can change. -->
+	<link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,900" rel="stylesheet">
+
+    <!-- 플젝 css -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Template global css file. Requared all pages -->
+    <link rel="stylesheet" href="/assets/css/main.css" />
+
+
+</head>
+
+<body>
+	
+	<div class="wrapper ">
+		
+		<div class="wrapper-inline">
+		
+			<!-- Header area end -->
+
+			<!-- Page content start -->
+			<main class="margin mt-0">
+
+			
+
+				<section class="wallets-list container">
+					<h4 class="title-main">기부 하기</h4>
+					<div class="wallet-address" style="border-radius: 0 0 0 0;">
+                    
+
+                       
+    <!-- 기부금액 시작 -->
+                        <div class="form-mini-divider"></div>
+                        <div class="txt-left calc-crr">
+                    		<label class="g-text">기부할 금액 + </label>
+	                    	<div class="form-row-group with-icons">
+								<div class="form-row no-padding">
+									<input type="text"  id="amount" name="aaa" class="form-element" placeholder="0 원" value="">
+								</div>
+                            </div>
+                                
+                        </div>
+                        <div class="form-mini-divider"></div>
+                        <div style="margin-top:20px;">
+                            <div class="form-row">
+                                <button type = "button" id="sendBtn" class="button circle block orange">변경하기 </button>
+                            </div>
+                        </div>
+ 	<!-- 기부금액 끝 -->                   	    
+                    </div>
+
+					
+				</section>
+
+	<!-- Swiper JS -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/browser.min.js"></script>
+    <script src="/assets/js/breakpoints.min.js"></script>
+    <script src="/assets/js/util.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+
+    <script>
+        $('#sendBtn').click(function(){
+            var charityid = '<%=data[0].charityid%>';
+            var amount = $("#amount").val();
+            var jwtToken = sessionStorage.getItem('jwtToken')
+			
+			$.ajax({
+                url:'/charitySend',
+				type : 'POST',
+				headers : {
+                    'ourtoken' : jwtToken
+                },
+                data : {
+                    charityid : charityid,
+                    amount : amount
+                },
+                success:function(data){
+					window.location.href = '/profile'
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
