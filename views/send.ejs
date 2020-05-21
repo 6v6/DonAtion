@@ -304,9 +304,9 @@
             
             //송금 완료시 기부값,현재시간,아이디 db저장
             function donation_account(){
-                var donation_money = $("#dutchAmount").val();
+                var donation_money = $("#donationAmount").val();
                 var name=userinfo_login;
-                
+
                 var nowdate=nowdate;
             
                 $.ajax({
@@ -367,6 +367,7 @@
                     },
                     success: function (data) {
                         alert('개설자에게 송금 완료!')
+                        donation_account();
                         window.location.href='/';
                         
                     }

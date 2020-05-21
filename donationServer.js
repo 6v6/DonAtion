@@ -645,7 +645,7 @@ app.post('/sendConfirms', function(req, res){
     var nowdate=req.body.nowdate
     console.log(donation_money);
     console.log(name);
-    var sql="INSERT INTO fintech.donationaccount (name, donation_money,nowdate) VALUES(?,?,current_timestamp())"
+    var sql="INSERT INTO donation.donationaccount (name, donation_money,nowdate) VALUES(?,?,current_timestamp())"
     connection.query(
         sql, 
         [name,donation_money,nowdate], // ? <-value
