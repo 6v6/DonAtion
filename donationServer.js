@@ -387,6 +387,13 @@ app.post('/charitySend', auth, function(req, res){
     var charityid = req.body.charityid;
     var amount = req.body.amount;
 
+    let today = new Date();
+    let year = today.getFullYear(); // 년도
+    let month = today.getMonth() + 1;  // 월
+    let date = today.getDate();  // 날짜
+
+    var day = year + '/' + month + '/' + date;
+
     var sql = "SELECT * FROM userCharity where id = ?"
     connection.query(sql, [userId], function(err, result){
         if(err){
@@ -394,30 +401,16 @@ app.post('/charitySend', auth, function(req, res){
             throw err;
         }
         else{
-            if(result.length == 0) {
-                var sql = "INSERT into userCharity SET id = ?, charityid = ?, amount = amount + ?"
-                connection.query(sql, [userId, charityid, amount], function(err, result) {
-                    if(err){
-                        console.error(err)
-                        throw err
-                    }
-                    else {
-                        res.json(1);
-                    }
-                })
-            }
-            else {
-                var sql = "UPDATE userCharity SET amount = amount + ? WHERE id = ? AND charityid = ?"
-                connection.query(sql, [amount, userId, charityid], function(err, result) {
-                    if(err){
-                        console.error(err)
-                        throw err
-                    }
-                    else {
-                        res.json(1);
-                    }
-                })
-            }
+            var sql = "INSERT into userCharity SET id = ?, charityid = ?, amount = ?, charitydate = ?"
+            connection.query(sql, [userId, charityid, amount, day], function(err, result) {
+                if(err){
+                    console.error(err)
+                    throw err
+                }
+                else {
+                    res.json(1);
+                }
+            })
         }
     })
 })
