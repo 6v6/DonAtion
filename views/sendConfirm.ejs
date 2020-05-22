@@ -137,7 +137,7 @@
        
         function fetchUserData(){
             $.ajax({
-                url:'http://localhost:3000/sendConfirm',
+                url:'/sendConfirm',
                 type : 'POST',
                 headers : {
                     'ourtoken' : jwtToken

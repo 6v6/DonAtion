@@ -188,7 +188,7 @@
         fetchUserData();
         function fetchUserData(){
             $.ajax({
-                url:'http://localhost:3000/dutchRequest',
+                url:'/dutchRequest',
                 type : 'POST',
                 headers : {
                     'ourtoken' : jwtToken

@@ -69,7 +69,7 @@
         var qs = getQueryStringObject();
         var jwtToken = sessionStorage.getItem('jwtToken');
         $.ajax({
-			url:'http://localhost:3000/balance',
+			url:'/balance',
 			type : 'POST',
 			headers : {
 				'ourtoken' : jwtToken
@@ -84,7 +84,7 @@
 		})
 		$("#withdrawBtn").click(function() {
 			$.ajax({
-				url:'http://localhost:3000/withdraw',
+				url:'/withdraw',
 				type : 'POST',
 				dataType : 'JSON',
 				headers : {

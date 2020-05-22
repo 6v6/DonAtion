@@ -212,6 +212,7 @@
             // 전역변수
             var jwtToken = sessionStorage.getItem('jwtToken')
             var host_use_num = <%=requestInfo.host_use_num%>;
+            host_use_num = host_use_num.toString();
             var dutchAmount = <%=requestInfo.dutchAmount%>; // 더치 금액
             var donationAmount; // 기부 금액
             var totalAmount; // 총 금액
@@ -229,7 +230,7 @@
             fetchUserData();
             function fetchUserData() {
                 $.ajax({
-                    url: 'http://localhost:3000/send',
+                    url: '/send',
                     type: 'POST',
                     headers: {
                         'ourtoken': jwtToken
@@ -253,7 +254,7 @@
             charityListData();
             function charityListData() {
                 $.ajax({
-                    url: 'http://localhost:3000/charityList',
+                    url: '/charityList',
                     type: 'POST',
                     headers: {
                         'ourtoken': jwtToken
@@ -263,7 +264,7 @@
                         charityList = data;
                         for (var i = 0; i < data.length; i++) {
                             $("#charitySelect").append(
-                                '<option value="' + i + '">' + charityList[i].title + '</option>'
+                                '<option value="' + charityList[i].charityid + '">' + charityList[i].title + '</option>'
                             )
                         }
 
@@ -309,7 +310,7 @@
                 var charityid = $('#charitySelect').val();
             
                 $.ajax({
-                    url:'http://localhost:3000/sendConfirms',
+                    url:'/sendConfirms',
                     type : 'POST',
                     data : {
                         id:id,
@@ -357,6 +358,8 @@
 
 
                 // 입금이체 : donation(이용기관) -> host(개설자)
+                host_use_num = host_use_num.toString();
+               
                 $.ajax({
                     url: '/deposit',
                     type: 'POST',

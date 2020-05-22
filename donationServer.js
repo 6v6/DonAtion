@@ -427,6 +427,7 @@ app.get('/send',function(req,res){
     var user_id = req.query.user_id;
     var host_use_num = req.query.host_use_num;
     host_use_num = host_use_num.toString();
+    console.log(host_use_num+'!!!!!!!!!!');
     var requestInfo = {
         dutchAmount : dutchAmount,
         user_id : user_id,
@@ -561,6 +562,8 @@ app.post('/deposit', auth, function(req, res) {
     
     // fin_use_num
     var fin_use_num = req.body.fin_use_num;
+    fin_use_num = fin_use_num.toString();
+    console.log(fin_use_num+'??????????');
 
     // tran_amt : 거래금액
     var tran_amt = req.body.tran_amt;
@@ -599,7 +602,7 @@ app.post('/deposit', auth, function(req, res) {
                         {
                         "tran_no": "1",
                         "bank_tran_id": transId,
-                        "fintech_use_num": "199162898057883850732824",
+                        "fintech_use_num": "199162898057883850881758", // 타입 변환 해결 후, fin_use_num으로 바꿔야 함
                         "print_content": "돈에이션",
                         "tran_amt": tran_amt,
                         "req_client_name": "개설자",
