@@ -11,10 +11,10 @@ var auth = require('./lib/auth')
 
 
 var connection = mysql.createConnection({
-  host     : 'fintech.cxyonwbiekau.ap-northeast-2.rds.amazonaws.com', //'DB-hostname을 입력해주세요',
-  user     : 'fintech',
-  password : '1q2w3e4r!', //'DB-password를 입력해주세요',
-  database : 'donation'
+  host     : 'db호스트네임', //'DB-hostname을 입력해주세요',
+  user     : '사용자이름',
+  password : 'db비밀번호', //'DB-password를 입력해주세요',
+  database : 'db이름'
 });
  
 connection.connect();
